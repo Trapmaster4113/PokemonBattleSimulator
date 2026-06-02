@@ -1,4 +1,4 @@
-pokemon = function(name, type, moves, hp, atk, def, spd) {
+pokemon = function(name, type, moves, hp, atk, def, spa, spdf, spd) {
     var self = {
         name:name,
         type:type,
@@ -6,6 +6,8 @@ pokemon = function(name, type, moves, hp, atk, def, spd) {
         hp:hp,
         atk:atk,
         def:def,
+        spa:spa,
+        spdf:spdf,
         spd:spd,
     };
     self.maxHP = hp;
@@ -36,20 +38,41 @@ move = function(name, type, pp) {
     let self = {
         name:name,
         type:type,
-        type2:type2,
         pp:pp,
     }
     self.maxPP = pp;
+    self.toString = function() {
+        return self.name;
+    }
     return self;
 }
-damageMove = function(name, type, pp, basePower,hit) {
+damageMove = function(name, type, pp, basePower, hit, damageType) {
     let self = move(name,type,pp);
     self.basePower = basePower;
     self.hit = hit;
+    self.damageType = damageType;
     self.effect = function(user, target) {
         if (Math.floor(Math.random()*100) <= self.hit) {
-            let damage = self.basePower + user.atk - target.def;
-            if (damage <= 0) {
+            let userStat = self.damageType === "physical" ? user.atk : user.spa;
+            let damage = Math.floor(self.basePower + userStat - target.def);
+            if (user.type.includes(self.type)) {
+                damage = Math.floor(damage*1.5);
+            }
+            for (let i of target.type) {
+                if (getTypeImmune(i).includes(self.type)) {
+                    damage = 0;
+                    console.log(self.name + " doesn't affect " + target.name);
+                }
+                else if (getTypeWeak(i).includes(self.type)) {
+                    damage *= 2;
+                    console.log(self.name + " is super effect against " + target.name);
+                }
+                else if (getTypeResist(i).includes(self.type)) {
+                    damage = Math.floor(damage/2);
+                    console.log(self.name + " is not very effect against " + target.name);
+                }
+            }
+            if (damage < 0) {
                 damage = 1;
             }
             target.hp -= damage;
@@ -74,10 +97,13 @@ statMove = function(name,type,pp,hit,stat,amount,receiver) {
         switch (stat) {
             case 'atk':
                 self.receiver.atk*=self.amount;
+                break;
             case 'def':
                 self.receiver.def*=self.amount;
+                break;
             case 'spd':
                 self.receiver.spd*=self.amount;
+                break;
         }
         console.log(self.receiver.name + "'s " + self.stat + " " + word + " by " + self.amount);
     }
@@ -122,10 +148,154 @@ priorityQueue = function() {
     }
     return self;
 }
+function getTypeWeak(name) {
+    let weak = [];
+    switch (name) {
+        case "normal":
+            weak.push(...["fighting"]);
+            break;
+        case "fire":
+            weak.push(...["water","rock","ground"]);
+            break;
+        case "water":
+            weak.push(...["electric","grass"]);
+            break;
+        case "grass":
+            weak.push(...["fire","ice","flying","poison","bug"]);
+            break;
+        case "electric":
+            weak.push(...["ground"]);
+            break;
+        case "ice":
+            weak.push(...["fighting","steel","rock","fire"]);
+            break;
+        case "fighting":
+            weak.push(...["fairy","psychic","flying"]);
+            break;
+        case "poison":
+            weak.push(...["ground","psychic"]);
+            break;
+        case "ground":
+            weak.push(...["water","grass","ice"]);
+            break;
+        case "flying":
+            weak.push(...["rock","electric","ice"]);
+            break;
+        case "psychic":
+            weak.push(...["bug","dark","ghost"]);
+            break;
+        case "bug":
+            weak.push(...["rock","flying","fire"]);
+            break;
+        case "rock":
+            weak.push(...["steel","water","grass","fighting"]);
+            break;
+        case "ghost":
+            weak.push(...["ghost","dark"]);
+            break;
+        case "dragon":
+            weak.push(...["ice","dragon","fairy"]);
+            break;
+        case "dark":
+            weak.push(...["bug","fairy","fighting"]);
+            break;
+        case "steel":
+            weak.push(...["fighting","fire","ground"]);
+            break;
+        case "fairy":
+            weak.push(...["poison", "steel"]);
+            break;
+    }
+    return weak;
+}
+function getTypeResist(name) {
+    let resist = [];
+    switch (name) {
+        case "fire":
+            resist.push(...["fire","grass","ice","steel","fairy"]);
+            break;
+        case "water":
+            resist.push(...["fire","water","ice","steel"]);
+            break;
+        case "grass":
+            resist.push(...["water","electric","grass","ground"]);
+            break;
+        case "electric":
+            resist.push(...["electric","flying","steel"]);
+            break;
+        case "ice":
+            resist.push(...["ice"]);
+            break;
+        case "fighting":
+            resist.push(...["bug","rock","dark"]);
+            break;
+        case "poison":
+            resist.push(...["grass","fighting","poison","bug","fairy"]);
+            break;
+        case "ground":
+            resist.push(...["poison","rock"]);
+            break;
+        case "flying":
+            resist.push(...["grass","fighting"]);
+            break;
+        case "psychic":
+            resist.push(...["psychic","fighting"]);
+            break;
+        case "bug":
+            resist.push(...["grass","fighting","ground"]);
+            break;
+        case "rock":
+            resist.push(...["flying","normal","fire","poison"]);
+            break;
+        case "ghost":
+            resist.push(...["bug"]);
+            break;
+        case "dragon":
+            resist.push(...["grass","fire","water","electric"]);
+            break;
+        case "dark":
+            resist.push(...["ghost","dark"]);
+            break;
+        case "steel":
+            resist.push(...["normal","grass","ice","flying","psychic","bug","rock","dragon","steel","fairy"]);
+            break;
+        case "fairy":
+            resist.push(...["fighting","bug","dark"]);
+            break;
+    }
+    return resist;
+}
+function getTypeImmune(name) {
+    let immune = [];
+    switch (name) {
+        case "normal":
+            immune.push(...["ghost"]);
+            break;
+        case "ground":
+            immune.push(...["electric"]);
+            break;
+        case "flying":
+            immune.push(...["ground"]);
+            break;
+        case "ghost":
+            immune.push(...["fighting","normal"]);
+            break;
+        case "dark":
+            immune.push(...["psychic"]);
+            break;
+        case "steel":
+            immune.push(...["poison"]);
+            break;
+        case "fairy":
+            immune.push(...["dragon"]);
+            break;
+    }
+    return immune;
+}
 let test = priorityQueue();
 //console.log(test.toString());
-let one = pokemon("Turtwig", ["Grass"], [damageMove('Tackle', 'Normal',35, 10, 100, null),statMove('Withdraw','Water',40,100,'def',1.5,'self')], 20, 3, 5, 50);
-let two = pokemon("Chimchar", ["Fire"], [damageMove('Scratch', 'Normal',35, 10, 100,null),statMove('Leer', 'Normal', 40, 100,'def',0.67,'target')], 20, 3, 5, 48);
+let one = pokemon("Turtwig", ["grass"], [damageMove('Tackle', 'normal',35, 10, 100, "physical"),statMove('Withdraw','water',40,100,'def',1.5,'self'),damageMove('Absorb','grass',40,5,100, "special")], 20, 2, 5, 2, 5,50);
+let two = pokemon("Chimchar", ["fire"], [damageMove('Scratch', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Ember','fire',40,5,100, "special")], 20, 3, 3, 3,3,48);
 test.append(one);
 //console.log(test.toString());
 test.append(two);
@@ -171,3 +341,5 @@ singleBattle = function(one,two) {
 }
 let bat = singleBattle(one, two);
 bat.battle();
+//console.log(getTypeWeak(one.type[0]).includes("bug"));
+//console.log(one.moves);
