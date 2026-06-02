@@ -292,21 +292,10 @@ function getTypeImmune(name) {
     }
     return immune;
 }
-let test = priorityQueue();
-//console.log(test.toString());
 let one = pokemon("Turtwig", ["grass"], [damageMove('Tackle', 'normal',35, 10, 100, "physical"),statMove('Withdraw','water',40,100,'def',1.5,'self'),damageMove('Absorb','grass',40,5,100, "special")], 20, 2, 5, 2, 5,50);
 let two = pokemon("Chimchar", ["fire"], [damageMove('Scratch', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Ember','fire',40,5,100, "special")], 20, 3, 3, 3,3,48);
-test.append(one);
-//console.log(test.toString());
-test.append(two);
-/*//console.log(test.toString());
-let three = pokemon("Piplup", ["Water"], [move('Tackle', 'Normal',35, 50, 60,null)], 100, 50, 50, 51);
-test.append(three);
-//console.log(test.toString());
-let four = pokemon ("Shinx", ["Electric"], [move('Tackle', 'Normal',35, 50, 60,null)], 100, 50, 50, 49);
-test.append(four);
-//console.log(test.toString());
-//*/
+let thr = pokemon("Piplup", ["Water"], [damageMove('Pound', 'normal',35, 10, 100,"physical"),statMove('Growl','normal',40,100,'atk',0.67,'target'),damageMove('Bubble','water',40,5,100,'special')], 20, 3, 3, 3,3,3,49);
+let four = pokemon ("Shinx", ["Electric"], [damageMove('Tackle', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Spark','electric',40,5,100,'physical')], 20, 5, 2, 1,2,51);
 singleBattle = function(one,two) {
     var self = {};
     function battleOver() {
@@ -339,7 +328,7 @@ singleBattle = function(one,two) {
     }
     return self;
 }
-let bat = singleBattle(one, two);
-bat.battle();
-//console.log(getTypeWeak(one.type[0]).includes("bug"));
-//console.log(one.moves);
+//let bat = singleBattle(one, two);
+let bat2 = singleBattle(one,thr);
+bat2.battle();
+//bat.battle();
