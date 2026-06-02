@@ -96,13 +96,13 @@ statMove = function(name,type,pp,hit,stat,amount,receiver) {
         let word = amount > 1 ? "rose" : "shrunk";
         switch (stat) {
             case 'atk':
-                self.receiver.atk*=self.amount;
+                self.receiver.atk = Math.floor(self.receiver.atk*self.amount);
                 break;
             case 'def':
-                self.receiver.def*=self.amount;
+                self.receiver.def = Math.floor(self.receiver.def*self.amount);
                 break;
             case 'spd':
-                self.receiver.spd*=self.amount;
+                self.receiver.spd = Math.floor(self.receiver.spd*self.amount);
                 break;
         }
         console.log(self.receiver.name + "'s " + self.stat + " " + word + " by " + self.amount);
