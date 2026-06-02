@@ -329,6 +329,6 @@ singleBattle = function(one,two) {
     return self;
 }
 //let bat = singleBattle(one, two);
-let bat2 = singleBattle(one,thr);
-bat2.battle();
+//let bat2 = singleBattle(one,thr);
+//bat2.battle();
 //bat.battle();

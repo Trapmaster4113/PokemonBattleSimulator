@@ -7,15 +7,20 @@
         <canvas id="ctx" width="1850" height="850" style="border:1px solid #000000;"></canvas>
     </body>
     <script src="Pokemon.js"></script>
+    <script src="object.js"></script>
+    <script src="mouse.js"></script>
     <script>
-        var canvas = document.getElementById('ctx');
-        var ctx = canvas.getContext("2d");
+        const canvas = document.getElementById('ctx');
+        const ctx = canvas.getContext("2d");
         var click = 0;
+        var mouseX; //Instantiate Variable for global use (used to track the mouse's X-coordinate)
+        var mouseY; //Instantiate Variable for global use (used to track the mouse's Y-coordinate)
         ctx.font = '15px Arial'; //Change Font
         ctx.fillStyle = 'black'; //Color of the text and forms
         ctx.globalAplha = 0.5; //Transparency 0 = invisible, 1 = visible
-        var HEIGHT = document.getElementById('ctx').height;
-        var WIDTH = document.getElementById('ctx').width;
+        const HEIGHT = document.getElementById('ctx').height;
+        const WIDTH = document.getElementById('ctx').width;
+        let mouse = createMouse();
         drawBeneath = function(x,y) {
             ctx.save();
             ctx.fillStyle = "rgba(128,128,128,0.3)";
@@ -25,13 +30,11 @@
             ctx.fill();
             ctx.restore();
         }
-        drawBeneath(WIDTH*3/4, HEIGHT/4);
-        drawBeneath(WIDTH/4, HEIGHT*3/4);
-        var one = pokemon("Turtwig", ["Grass"], ['Tackle', 'Withdraw'], 50, 50, 50, 50);
-        var two = pokemon("Chimchar", ["Fire"], ['Scratch', 'Leer'], 50, 50, 50, 50);
+        let one1 = pokemon("Turtwig", ["grass"], [damageMove('Tackle', 'normal',35, 10, 100, "physical"),statMove('Withdraw','water',40,100,'def',1.5,'self'),damageMove('Absorb','grass',40,5,100, "special")], 20, 2, 5, 2, 5,50);
+        let two2 = pokemon("Chimchar", ["fire"], [damageMove('Scratch', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Ember','fire',40,5,100, "special")], 20, 3, 3, 3,3,48);
         drawPokemon = function(one,two) {
             ctx.save();
-            ctx.fillStyle = 'Green';
+            ctx.fillStyle = 'Lime';
             ctx.fillRect(WIDTH/8*1.5, HEIGHT*5.5/8, WIDTH/8, HEIGHT/8);
             ctx.fillStyle = 'Red';
             ctx.fillRect(WIDTH/8*5.5, HEIGHT/8*1.5, WIDTH/8, HEIGHT/8);
@@ -40,21 +43,34 @@
         drawBattleUI = function(pokemon1, pokemon2) {
             ctx.save();
             ctx.fillStyle = "rgba(128,128,128,0.25)";
+            //Mon 2 Gray background bar
             ctx.fillRect(0, HEIGHT/16, WIDTH*3/8,HEIGHT/16);
+            //Mon 1 Gray background bar
             ctx.fillRect(WIDTH*5/8, HEIGHT*9/16, WIDTH*3/8,HEIGHT/16);
+            ctx.fillRect(WIDTH*5/8, HEIGHT*10/16, WIDTH*3/8,HEIGHT*6/16)
             ctx.fillStyle = "Green";
+            //Mon 2 healthbar
             ctx.fillRect(WIDTH/64, HEIGHT*5/64, WIDTH*22/64*pokemon2.hp/pokemon2.maxHP, HEIGHT/32);
+            //Mon 1 healthbar
             ctx.fillRect(WIDTH*41/64,HEIGHT*37/64, WIDTH*22/64*pokemon1.hp/pokemon1.maxHP, HEIGHT/32);
             ctx.fillStyle = "Black";
             ctx.fillText(pokemon2.name, 0, HEIGHT/16);
             ctx.fillText(pokemon1.name, WIDTH*5/8, HEIGHT*9/16);
             ctx.restore();
         }
-        drawPokemon(one,two);
-        drawBattleUI(one,two);
-        /*update = function() {
+        drawPokemon(one1,two2);
+        drawBattleUI(one1,two2);
+        inputSetUp();
+        ///*
+        update = function() {
             ctx.clearRect(0,0, WIDTH, HEIGHT);
+            mouse.update();
+            drawPokemon(one1,two2);
+            drawBattleUI(one1,two2);
+            drawBeneath(WIDTH*3/4, HEIGHT/4);
+            drawBeneath(WIDTH/4, HEIGHT*3/4);
         }
-        setInterval(update, 40);*/
+        setInterval(update, 40);
+        //*/
     </script>
 </html>
