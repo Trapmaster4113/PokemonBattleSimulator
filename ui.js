@@ -1,0 +1,84 @@
+ui = function(x,y,width, height,color, test) {
+    let self = obj(x,y,width,height);
+    self.draw = function() {
+        ctx.save();
+        ctx.fillStyle = color;
+        ctx.fillRect(self.x,self.y,self.width,self.height);
+        ctx.fillStyle = "black";
+        ctx.fillText(test, self.x+self.width/2, self.y+self.height/2);
+        ctx.restore();
+    }
+    self.clicked = function() { 
+        return self.testCollisionEntity(mouse) && click === 1;
+    }
+    self.update = function() {
+        self.draw();
+        if (self.clicked() && click === 1) {
+            click++;
+            console.log(test);
+        }
+    }
+    self.toString = function() {
+        return test;
+    }
+    return self;
+}
+drawBattleUI = function(l) {
+    if (l.length === 2) {
+        //Enemy Pokemon
+        drawBeneath(WIDTH/4, HEIGHT*13/16);
+        drawHPBar(0,HEIGHT/16,l[1]);
+        //Ally Pokemon
+        drawBeneath(WIDTH*3/4, HEIGHT*3/16);
+        drawHPBar(WIDTH*5/8,HEIGHT*9/16,l[0]);
+        drawFightUI(WIDTH*5/8,HEIGHT*10/16,l[0])
+    }
+}
+drawFightUI = function(x,y,pokemon) {
+    ctx.save();
+    ctx.fillStyle = "rgba(60,60,60,0.25)";
+    ctx.fillRect(x, y, WIDTH*3/8,HEIGHT*11/32);
+    ctx.restore();
+}
+drawMoveUI = function(x, y, pokemon, num) {
+    let self = ui(x,y, WIDTH/16, HEIGHT/32);
+    let super_draw = self.draw;
+    self.draw = function() {
+        super_draw();
+    }
+    let super_update = self.update();
+    self.update = function() {
+        self.draw();
+        if (self.clicked()) {
+            console.log(' ');
+        }
+    }
+    return self;
+}
+drawHPBar = function(x,y, pokemon) {
+    ctx.save();
+    ctx.fillStyle = "rgba(196, 196, 196, 0.5)";
+    ctx.fillRect(x,y, WIDTH*3/8,HEIGHT/16);
+    ctx.fillStyle = "Green";
+    ctx.fillRect(x+WIDTH/64,y+HEIGHT/64,WIDTH*22/64*pokemon.hp/pokemon.maxHP, HEIGHT/32);
+    ctx.restore();
+    ctx.fillText(pokemon.name, x, y);
+}
+drawPokemon = function(one,two) {
+    ctx.save();
+    ctx.fillStyle = 'Lime';
+    ctx.fillRect(WIDTH/8*1.5, HEIGHT*5.5/8, WIDTH/16, HEIGHT/16);
+    ctx.fillStyle = 'Red';
+    ctx.fillRect(WIDTH/8*5.5, HEIGHT/8*1.5, WIDTH/16, HEIGHT/16);
+    ctx.restore();
+}
+drawBeneath = function(x,y) {
+    ctx.save();
+    ctx.fillStyle = "rgba(160,160,160,0.3)";
+    ctx.beginPath();
+    //x position, y position, width, height, rotation, start angle, end angle);
+    ctx.ellipse(x,y, WIDTH*5/32, HEIGHT*5/32,0,0, 2*Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.restore();
+}

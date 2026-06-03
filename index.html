@@ -9,6 +9,7 @@
     <script src="Pokemon.js"></script>
     <script src="object.js"></script>
     <script src="mouse.js"></script>
+    <script src="ui.js"></script>
     <script>
         const canvas = document.getElementById('ctx');
         const ctx = canvas.getContext("2d");
@@ -20,55 +21,28 @@
         ctx.globalAplha = 0.5; //Transparency 0 = invisible, 1 = visible
         const HEIGHT = document.getElementById('ctx').height;
         const WIDTH = document.getElementById('ctx').width;
-        let mouse = createMouse();
-        drawBeneath = function(x,y) {
-            ctx.save();
-            ctx.fillStyle = "rgba(128,128,128,0.3)";
-            ctx.beginPath();
-            ctx.ellipse(x,y, WIDTH/8*1.5, HEIGHT/8*1.5,0,0, 2*Math.PI);
-            ctx.stroke();
-            ctx.fill();
-            ctx.restore();
-        }
+        var mouse = createMouse();
+        inputSetUp();
+        ///*
         let one1 = pokemon("Turtwig", ["grass"], [damageMove('Tackle', 'normal',35, 10, 100, "physical"),statMove('Withdraw','water',40,100,'def',1.5,'self'),damageMove('Absorb','grass',40,5,100, "special")], 20, 2, 5, 2, 5,50);
         let two2 = pokemon("Chimchar", ["fire"], [damageMove('Scratch', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Ember','fire',40,5,100, "special")], 20, 3, 3, 3,3,48);
-        drawPokemon = function(one,two) {
-            ctx.save();
-            ctx.fillStyle = 'Lime';
-            ctx.fillRect(WIDTH/8*1.5, HEIGHT*5.5/8, WIDTH/8, HEIGHT/8);
-            ctx.fillStyle = 'Red';
-            ctx.fillRect(WIDTH/8*5.5, HEIGHT/8*1.5, WIDTH/8, HEIGHT/8);
-            ctx.restore();
-        }
-        drawBattleUI = function(pokemon1, pokemon2) {
-            ctx.save();
-            ctx.fillStyle = "rgba(128,128,128,0.25)";
-            //Mon 2 Gray background bar
-            ctx.fillRect(0, HEIGHT/16, WIDTH*3/8,HEIGHT/16);
-            //Mon 1 Gray background bar
-            ctx.fillRect(WIDTH*5/8, HEIGHT*9/16, WIDTH*3/8,HEIGHT/16);
-            ctx.fillRect(WIDTH*5/8, HEIGHT*10/16, WIDTH*3/8,HEIGHT*6/16)
-            ctx.fillStyle = "Green";
-            //Mon 2 healthbar
-            ctx.fillRect(WIDTH/64, HEIGHT*5/64, WIDTH*22/64*pokemon2.hp/pokemon2.maxHP, HEIGHT/32);
-            //Mon 1 healthbar
-            ctx.fillRect(WIDTH*41/64,HEIGHT*37/64, WIDTH*22/64*pokemon1.hp/pokemon1.maxHP, HEIGHT/32);
-            ctx.fillStyle = "Black";
-            ctx.fillText(pokemon2.name, 0, HEIGHT/16);
-            ctx.fillText(pokemon1.name, WIDTH*5/8, HEIGHT*9/16);
-            ctx.restore();
-        }
-        drawPokemon(one1,two2);
-        drawBattleUI(one1,two2);
-        inputSetUp();
+        let ally = [];
+        ally.push(one1);
+        let lst = [one1, two2];
+        var moveZero = ui(WIDTH*81/128, HEIGHT*41/64, WIDTH*11/64, HEIGHT*9/64, 'red','one');
+        var moveOne = ui(WIDTH*105/128, HEIGHT*41/64, WIDTH*11/64, HEIGHT*9/64, 'red','two');
+        var moveTwo = ui(WIDTH*81/128, HEIGHT*51/64, WIDTH*11/64, HEIGHT*9/64, 'red','thr');
+        var moveThree  = ui(WIDTH*105/128, HEIGHT*51/64, WIDTH*11/64, HEIGHT*9/64, 'red','for');
+        let moveList = [moveZero, moveOne, moveTwo, moveThree];
+        //*/
         ///*
         update = function() {
             ctx.clearRect(0,0, WIDTH, HEIGHT);
             mouse.update();
-            drawPokemon(one1,two2);
-            drawBattleUI(one1,two2);
-            drawBeneath(WIDTH*3/4, HEIGHT/4);
-            drawBeneath(WIDTH/4, HEIGHT*3/4);
+            drawBattleUI(lst);
+            for (let i = 0; i < ally[0].moves.length; i++) {
+                moveList[i].update();
+            }
         }
         setInterval(update, 40);
         //*/

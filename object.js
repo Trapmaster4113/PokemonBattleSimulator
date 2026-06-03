@@ -1,5 +1,5 @@
 obj = function(x,y,width,height) {
-    var self = {
+    let self = {
         x:x,
         y:y,
         width:width,
@@ -10,20 +10,20 @@ obj = function(x,y,width,height) {
         self.draw();
     }
     self.draw = function() {
-        ctx.fillRect(self.width/2,-self.height/2,self.width,self.height);
+        ctx.fillRect(self.x,self.y,self.width,self.height);
     }
     self.updatePosition = function() {
     }
     self.testCollisionEntity = function(entity2) { //return if entities collide (true/false)
-        var rect1 = {
-            x:self.width/2,
-            y:self.height/2,
+        let rect1 = {
+            x:self.x,
+            y:self.y,
             width:self.width,
             height:self.height,
         }
-        var rect2 = {
-            x:entity2.width/2,
-            y:entity2.height/2,
+        let rect2 = {
+            x:entity2.x,
+            y:entity2.y,
             width:entity2.width,
             height:entity2.height,
         }
