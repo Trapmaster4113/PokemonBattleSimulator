@@ -292,10 +292,6 @@ function getTypeImmune(name) {
     }
     return immune;
 }
-let one = pokemon("Turtwig", ["grass"], [damageMove('Tackle', 'normal',35, 10, 100, "physical"),statMove('Withdraw','water',40,100,'def',1.5,'self'),damageMove('Absorb','grass',40,5,100, "special")], 20, 2, 5, 2, 5,50);
-let two = pokemon("Chimchar", ["fire"], [damageMove('Scratch', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Ember','fire',40,5,100, "special")], 20, 3, 3, 3,3,48);
-let thr = pokemon("Piplup", ["Water"], [damageMove('Pound', 'normal',35, 10, 100,"physical"),statMove('Growl','normal',40,100,'atk',0.67,'target'),damageMove('Bubble','water',40,5,100,'special')], 20, 3, 3, 3,3,3,49);
-let four = pokemon ("Shinx", ["Electric"], [damageMove('Tackle', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Spark','electric',40,5,100,'physical')], 20, 5, 2, 1,2,51);
 singleBattle = function(one,two) {
     var self = {};
     function battleOver() {
@@ -328,6 +324,10 @@ singleBattle = function(one,two) {
     }
     return self;
 }
+let one = pokemon("Turtwig", ["grass"], [damageMove('Tackle', 'normal',35, 10, 100, "physical"),statMove('Withdraw','water',40,100,'def',1.5,'self'),damageMove('Absorb','grass',40,5,100, "special")], 20, 2, 5, 2, 5,50);
+let two = pokemon("Chimchar", ["fire"], [damageMove('Scratch', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Ember','fire',40,5,100, "special")], 20, 3, 3, 3,3,48);
+let thr = pokemon("Piplup", ["Water"], [damageMove('Pound', 'normal',35, 10, 100,"physical"),statMove('Growl','normal',40,100,'atk',0.67,'target'),damageMove('Bubble','water',40,5,100,'special')], 20, 3, 3, 3,3,3,49);
+let four = pokemon ("Shinx", ["Electric"], [damageMove('Tackle', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Spark','electric',40,5,100,'physical')], 20, 5, 2, 1,2,51);
 //let bat = singleBattle(one, two);
 //let bat2 = singleBattle(one,thr);
 //bat2.battle();
