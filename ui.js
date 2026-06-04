@@ -30,6 +30,8 @@ drawBattleUI = function(l) {
         drawBeneath(WIDTH*3/4, HEIGHT*3/16);
         drawHPBar(WIDTH*5/8,HEIGHT*9/16,l[0]);
         drawFightUI(WIDTH*5/8,HEIGHT*10/16,l[0])
+        drawPokemon(WIDTH*6/32, HEIGHT*24/32, l[0]);
+        drawPokemon(WIDTH*22/32, HEIGHT*4/32, l[1]);
     }
 }
 drawFightUI = function(x,y,pokemon) {
@@ -73,12 +75,68 @@ drawHPBar = function(x,y, pokemon) {
     ctx.restore();
     ctx.fillText(pokemon.name, x, y);
 }
-drawPokemon = function(one,two) {
+drawPokemon = function(x, y, pokemon) {
+    if (pokemon.hp <= 0) {
+        return;
+    }
     ctx.save();
-    ctx.fillStyle = 'Lime';
-    ctx.fillRect(WIDTH/8*1.5, HEIGHT*5.5/8, WIDTH/16, HEIGHT/16);
-    ctx.fillStyle = 'Red';
-    ctx.fillRect(WIDTH/8*5.5, HEIGHT/8*1.5, WIDTH/16, HEIGHT/16);
+    switch (pokemon.type[0]) {
+        case "fire":
+            ctx.fillStyle = "orange";
+            break
+        case "water":
+            ctx.fillStyle = "blue";
+            break;
+        case "grass":
+            ctx.fillStyle = "green";
+            break;
+        case "normal":
+            ctx.fillStyle = "gray";
+            break;
+        case "electric":
+            ctx.fillStyle = "yellow";
+            break;
+        case "ground":
+            ctx.fillStyle = "gold";
+            break;
+        case "rock":
+            ctx.fillStyle = "brown";
+            break;
+        case "flying":
+            ctx.fillStyle = "DodgerBlue";
+            break;
+        case "fighting":
+            ctx.fillStyle = "red";
+            break;
+        case "psychic":
+            ctx.fillStyle = "fuchsia";
+            break;
+        case "dark":
+            ctx.fillStyle = "black";
+            break;
+        case "bug":
+            ctx.fillStyle = "lime";
+            break;
+        case "dragon":
+            ctx.fillStyle = "navy";
+            break;
+        case "fairy":
+            ctx.fillStyle = "pink";
+            break;
+        case "ice":
+            ctx.fillStyle = "lightblue";
+            break;
+        case "steel":
+            ctx.fillStyle = "darkgray";
+            break;
+        case "poison":
+            ctx.fillStyle = "darkpurple";
+            break;
+        case "ghost":
+            ctx.fillStyle = "purple";
+            break;
+    }
+    ctx.fillRect(x,y, WIDTH/8, HEIGHT/8);
     ctx.restore();
 }
 drawBeneath = function(x,y) {

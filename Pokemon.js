@@ -253,10 +253,10 @@ singleBattle = function(one,two) {
 //Moves are split into 2 categories: damageMove and statMove
 //damageMove(name (string), type (string), pp (number), basePower (number), hit (number [chance to hit]), damageType (string [physical or special]))
 //statMove(name (string), type (string), pp (number), hit (number), stat(string), amount increase (number), target(string [self or target]))
-let one = pokemon("Turtwig", ["grass"], [damageMove('Tackle', 'normal',35, 10, 100, "physical"),statMove('Withdraw','water',40,100,'def',1.5,'self'),damageMove('Absorb','grass',40,5,100, "special")], 20, 2, 5, 2, 5,50);
-let two = pokemon("Chimchar", ["fire"], [damageMove('Scratch', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Ember','fire',40,5,100, "special")], 20, 3, 3, 3,3,48);
-let thr = pokemon("Piplup", ["Water"], [damageMove('Pound', 'normal',35, 10, 100,"physical"),statMove('Growl','normal',40,100,'atk',0.67,'target'),damageMove('Bubble','water',40,5,100,'special')], 20, 3, 3, 3,3,3,49);
-let four = pokemon ("Shinx", ["Electric"], [damageMove('Tackle', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Spark','electric',40,5,100,'physical')], 20, 5, 2, 1,2,51);
+//let one = pokemon("Turtwig", ["grass"], [damageMove('Tackle', 'normal',35, 10, 100, "physical"),statMove('Withdraw','water',40,100,'def',1.5,'self'),damageMove('Absorb','grass',40,5,100, "special")], 20, 2, 5, 2, 5,50);
+//let two = pokemon("Chimchar", ["fire"], [damageMove('Scratch', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Ember','fire',40,5,100, "special")], 20, 3, 3, 3,3,48);
+//let thr = pokemon("Piplup", ["Water"], [damageMove('Pound', 'normal',35, 10, 100,"physical"),statMove('Growl','normal',40,100,'atk',0.67,'target'),damageMove('Bubble','water',40,5,100,'special')], 20, 3, 3, 3,3,3,49);
+//let four = pokemon ("Shinx", ["Electric"], [damageMove('Tackle', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Spark','electric',40,5,100,'physical')], 20, 5, 2, 1,2,51);
 //Create singleBattle object with 2 pokemon as arguments
 //let bat = singleBattle(one, two);
 //let bat2 = singleBattle(one,thr);
