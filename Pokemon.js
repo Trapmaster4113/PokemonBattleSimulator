@@ -24,8 +24,7 @@ pokemon = function(name, type, moves, hp, atk, def, spa, spdf, spd) {
             m.pp = m.maxPP;
         }
     }
-    self.attack = function(target) {
-        let move = Math.floor(Math.random()*self.moveNum);
+    self.attack = function(target, move) {
         console.log(self.name + " used " + self.moves[move].name);
         self.moves[move].effect(self,target);
     }
@@ -76,6 +75,9 @@ damageMove = function(name, type, pp, basePower, hit, damageType) {
                 damage = 1;
             }
             target.hp -= damage;
+            if (target.hp <= 0) {
+                target.hp = 0;
+            }
             console.log(user.name + " dealt " + (damage));
             //filler damage calc
         }

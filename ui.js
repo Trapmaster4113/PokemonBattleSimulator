@@ -4,8 +4,6 @@ ui = function(x,y,width, height,color, test) {
         ctx.save();
         ctx.fillStyle = color;
         ctx.fillRect(self.x,self.y,self.width,self.height);
-        ctx.fillStyle = "black";
-        ctx.fillText(test, self.x+self.width/2, self.y+self.height/2);
         ctx.restore();
     }
     self.clicked = function() { 
@@ -40,17 +38,28 @@ drawFightUI = function(x,y,pokemon) {
     ctx.fillRect(x, y, WIDTH*3/8,HEIGHT*11/32);
     ctx.restore();
 }
-drawMoveUI = function(x, y, pokemon, num) {
-    let self = ui(x,y, WIDTH/16, HEIGHT/32);
+drawMoveUI = function(x, y, pokemon, target, num) {
+    let self = ui(x,y, WIDTH*11/64, HEIGHT*9/64, 'red', num);
+    if (pokemon.moves.length <= num) {
+        self.update = function() {
+
+        }
+        return self;
+    }
     let super_draw = self.draw;
     self.draw = function() {
         super_draw();
+        ctx.save();
+        ctx.fillStyle = "black";
+        ctx.fillText(pokemon.moves[num].name, self.x+self.width/2, self.y+self.height/2);
+        ctx.restore();
     }
     let super_update = self.update();
     self.update = function() {
         self.draw();
         if (self.clicked()) {
-            console.log(' ');
+            click++;
+            pokemon.attack(target, num);
         }
     }
     return self;
