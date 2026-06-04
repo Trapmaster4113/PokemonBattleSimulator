@@ -59,7 +59,7 @@ drawMoveUI = function(x, y, pokemon, target, num) {
     let super_update = self.update();
     self.update = function() {
         self.draw();
-        if (self.clicked()) {
+        if (self.clicked() && userTurn) {
             click++;
             pokemon.attack(target, num);
         }
@@ -77,6 +77,7 @@ drawHPBar = function(x,y, pokemon) {
 }
 drawPokemon = function(x, y, pokemon) {
     if (pokemon.hp <= 0) {
+        console.log(pokemon.name + " fainted");
         return;
     }
     ctx.save();

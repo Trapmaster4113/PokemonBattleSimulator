@@ -27,6 +27,7 @@ pokemon = function(name, type, moves, hp, atk, def, spa, spdf, spd) {
     self.attack = function(target, move) {
         console.log(self.name + " used " + self.moves[move].name);
         self.moves[move].effect(self,target);
+        userTurn = false;
     }
     self.toString = function() {
         return self.name;
@@ -218,6 +219,7 @@ function getTypeImmune(name) {
 }
 singleBattle = function(one,two) {
     var self = {};
+    let justStarted = true;
     function battleOver() {
         return one.hp <= 0 || two.hp <= 0;
     }
@@ -225,26 +227,22 @@ singleBattle = function(one,two) {
         one.maxStats();
         two.maxStats();
     }
-    self.battle = function() {
-        battleReset();
-        ///*
-        while (!battleOver()) {
-            let order = priorityQueue();
-            order.append(one);
-            order.append(two);
-            
-            order.l[0].attack(order.l[1]);
-            if (battleOver()) {
-                console.log(order.l[0] + " wins");
-                break;
-            }
-            order.l[1].attack(order.l[0]);
-            if (battleOver()) {
-                console.log(order.l[1] + " wins");
-            }
-            console.log(order.l[0] + ": " + order.l[0].hp)
-            console.log(order.l[1] + ": " + order.l[1].hp)
-        }//*/
+    self.update = function() {
+        let order = priorityQueue();
+        order.append(one);
+        order.append(two);
+        if (justStarted) {
+            battleReset();
+            justStarted = false;
+            userTurn = order.l[0] === one ? true : false;
+        }
+        if (battleOver()) {
+            return;
+        }
+        if (!userTurn) {
+            two.attack(one, Math.floor(Math.random()*two.moves.length));
+            userTurn = true;
+        }
     }
     return self;
 }
