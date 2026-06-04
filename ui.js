@@ -21,7 +21,7 @@ ui = function(x,y,width, height,color, test) {
     }
     return self;
 }
-drawBattleUI = function(l) {
+drawBattleUI = function(l, test) {
     if (l.length === 2) {
         //Enemy Pokemon
         drawBeneath(WIDTH/4, HEIGHT*13/16);
@@ -32,6 +32,9 @@ drawBattleUI = function(l) {
         drawFightUI(WIDTH*5/8,HEIGHT*10/16,l[0])
         drawPokemon(WIDTH*6/32, HEIGHT*24/32, l[0]);
         drawPokemon(WIDTH*22/32, HEIGHT*4/32, l[1]);
+    }
+    if (test) {
+        ctx.fillText(battleText, 0, HEIGHT/2);
     }
 }
 drawFightUI = function(x,y,pokemon) {
@@ -78,6 +81,7 @@ drawHPBar = function(x,y, pokemon) {
 drawPokemon = function(x, y, pokemon) {
     if (pokemon.hp <= 0) {
         console.log(pokemon.name + " fainted");
+        battleText+=pokemon.name + " fainted" + "\n";
         return;
     }
     ctx.save();

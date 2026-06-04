@@ -25,7 +25,8 @@ pokemon = function(name, type, moves, hp, atk, def, spa, spdf, spd) {
         }
     }
     self.attack = function(target, move) {
-        console.log(self.name + " used " + self.moves[move].name);
+        //console.log(self.name + " used " + self.moves[move].name);
+        battleText += self.name + " used " + self.moves[move].name +"\n";
         self.moves[move].effect(self,target);
         userTurn = false;
     }
@@ -220,6 +221,7 @@ function getTypeImmune(name) {
 singleBattle = function(one,two) {
     var self = {};
     let justStarted = true;
+    let newTurn = false;
     function battleOver() {
         return one.hp <= 0 || two.hp <= 0;
     }
@@ -231,9 +233,12 @@ singleBattle = function(one,two) {
         let order = priorityQueue();
         order.append(one);
         order.append(two);
+        drawBattleUI(order.l, !battleOver());
         if (justStarted) {
             battleReset();
             justStarted = false;
+            battleText += "Go " + order.l[0].name + "\n";
+            battleText += "Go " + order.l[1].name + "\n";
             userTurn = order.l[0] === one ? true : false;
         }
         if (battleOver()) {
