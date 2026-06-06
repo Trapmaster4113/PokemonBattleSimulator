@@ -46,11 +46,11 @@
         update = function() {
             ctx.clearRect(0,0, WIDTH, HEIGHT);
             mouse.update();
-            for (let i = 0; i < ally[0].moves.length; i++) {
-                moveList[i].update();
-            }
             if (fighting) {
                 bat.update();
+                for (let i = 0; i < ally[0].moves.length; i++) {
+                    moveList[i].update();
+                }
             }
         }
         setInterval(update, 40);
