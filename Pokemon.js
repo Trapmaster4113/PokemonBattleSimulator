@@ -45,7 +45,7 @@ priorityQueue = function() {
         l[ind2] = temp;
         return l;
     }
-    function sort(l) {
+    self.sort = function(l) {
         if (l.length < 2) {
             return l;
         }
@@ -60,10 +60,13 @@ priorityQueue = function() {
     }
     self.append = function(val) {
         self.l.push(val);
-        self.l = sort(self.l);
+        self.l = self.sort(self.l);
     }
     self.remove = function() {
-        self.l.shift();
+        return self.l.shift();
+    }
+    self.length = function() { 
+        return self.l.length;
     }
     self.toString = function() {
         let s = "";
@@ -217,39 +220,6 @@ function getTypeImmune(name) {
             break;
     }
     return immune;
-}
-singleBattle = function(one,two) {
-    var self = {};
-    let justStarted = true;
-    let newTurn = false;
-    function battleOver() {
-        return one.hp <= 0 || two.hp <= 0;
-    }
-    function battleReset() {
-        one.maxStats();
-        two.maxStats();
-    }
-    self.update = function() {
-        let order = priorityQueue();
-        order.append(one);
-        order.append(two);
-        drawBattleUI(order.l, !battleOver());
-        if (justStarted) {
-            battleReset();
-            justStarted = false;
-            battleText += "Go " + order.l[0].name + "\n";
-            battleText += "Go " + order.l[1].name + "\n";
-            userTurn = order.l[0] === one ? true : false;
-        }
-        if (battleOver()) {
-            return;
-        }
-        if (!userTurn) {
-            two.attack(one, Math.floor(Math.random()*two.moves.length));
-            userTurn = true;
-        }
-    }
-    return self;
 }
 //let is how you make variables in javascript. Can also use "const" for CONSTANTS or "var", but var is obselete and shouldn't be used as much (meant for global variables)
 //Create 2 or more pokemon(Name (string), type (array of strings),moves (list of move variables), hp (number), atk (number), def (number), spa (number), spdf (number) spd (number))

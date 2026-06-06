@@ -21,18 +21,16 @@ ui = function(x,y,width, height,color, test) {
     }
     return self;
 }
-drawBattleUI = function(l, test) {
-    if (l.length === 2) {
-        //Enemy Pokemon
-        drawBeneath(WIDTH/4, HEIGHT*13/16);
-        drawHPBar(0,HEIGHT/16,l[1]);
-        //Ally Pokemon
-        drawBeneath(WIDTH*3/4, HEIGHT*3/16);
-        drawHPBar(WIDTH*5/8,HEIGHT*9/16,l[0]);
-        drawFightUI(WIDTH*5/8,HEIGHT*10/16,l[0])
-        drawPokemon(WIDTH*6/32, HEIGHT*24/32, l[0]);
-        drawPokemon(WIDTH*22/32, HEIGHT*4/32, l[1]);
-    }
+drawBattleUI = function(ally, enemy, test) {
+    //Enemy Pokemon
+    drawBeneath(WIDTH/4, HEIGHT*13/16);
+    drawHPBar(0,HEIGHT/16,enemy[0]);
+    //Ally Pokemon
+    drawBeneath(WIDTH*3/4, HEIGHT*3/16);
+    drawHPBar(WIDTH*5/8,HEIGHT*9/16,ally[0]);
+    drawFightUI(WIDTH*5/8,HEIGHT*10/16,ally[0])
+    drawPokemon(WIDTH*6/32, HEIGHT*24/32, ally[0]);
+    drawPokemon(WIDTH*22/32, HEIGHT*4/32, enemy[0]);
     if (test) {
         ctx.fillText(battleText, 0, HEIGHT/2);
     }

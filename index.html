@@ -11,6 +11,7 @@
     <script src="mouse.js"></script>
     <script src="ui.js"></script>
     <script src="moves.js"></script>
+    <script src="battle.js"></script>
     <script>
         const canvas = document.getElementById('ctx');
         const ctx = canvas.getContext("2d");
@@ -24,20 +25,22 @@
         const WIDTH = document.getElementById('ctx').width;
         var userTurn = false;
         var battleText = "";
+        var fighting = false;
         var mouse = createMouse();
         inputSetUp();
         ///*
         let one1 = pokemon("Turtwig", ["grass"], [damageMove('Tackle', 'normal',35, 10, 100, "physical"),statMove('Withdraw','water',40,100,'def',1.5,'self'),damageMove('Absorb','grass',40,5,100, "special")], 20, 2, 5, 2, 5,50);
-        let two2 = pokemon("Chimchar", ["fire"], [damageMove('Scratch', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Ember','fire',40,5,100, "special")], 20, 3, 3, 3,3,48);
+        let two2 = pokemon("Chimchar", ["fire"], [damageMove('Scratch', 'normal',35, 10, 100, "physical"),statMove('Leer', 'normal', 40, 100,'def',0.67,'target'),damageMove('Ember','fire',40,5,100, "special")], 20, 3, 3, 3,3,58);
         let ally = [];
+        let enemy = [];
         ally.push(one1);
-        let lst = [one1, two2];
+        enemy.push(two2);
         var moveZero = drawMoveUI(WIDTH*81/128, HEIGHT*41/64, one1, two2, 0);
         var moveOne = drawMoveUI(WIDTH*105/128, HEIGHT*41/64, one1, two2, 1);
         var moveTwo = drawMoveUI(WIDTH*81/128, HEIGHT*51/64, one1, two2, 2);
         var moveThree  = drawMoveUI(WIDTH*105/128, HEIGHT*51/64, one1, two2, 3);
         let moveList = [moveZero, moveOne, moveTwo, moveThree];
-        let bat = singleBattle(one1,two2);
+        let bat = singleBattle(ally,enemy);
         //*/
         ///*
         update = function() {
@@ -46,7 +49,9 @@
             for (let i = 0; i < ally[0].moves.length; i++) {
                 moveList[i].update();
             }
-            bat.update();
+            if (fighting) {
+                bat.update();
+            }
         }
         setInterval(update, 40);
         //*/
